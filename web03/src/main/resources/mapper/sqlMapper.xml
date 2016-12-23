@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="member">
+
+  <select id="getTime" resultType="String">
+  select sysdate from dual
+  </select>
+  
+  <insert id="insertMember">
+  insert into tb1_member(userid, userpw, username, email) values( #{userid}, #{userpw}, #{username}, #{email} )
+  </insert>
+  
+  <select id="memberList" resultType="com.example.web03.model.dto.MemberVo">
+  select * from tb1_member order by username
+  </select>
+  
+  <select id="memberInfo" resultType="com.example.web03.model.dto.MemberVo">
+  select * from tb1_member where userid=#{userid}
+  </select>
+  
+   <!-- 맵에 저장한 변수명을 사용. map.put("userid", "kim") -->
+  <select id="pwdCheck" resultType="int">
+  select count(*) from tb1_member where userid=#{userid} and userpw=#{userpw}
+  </select>
+  
+  <update id="updateInfo">
+  update tb1_member set username=#{username}, email=#{email}, updatedate=sysdate where userid=#{userid}
+  </update>
+  
+  <delete id="deleteInfo">
+  delete from tb1_member where userid=#{userid}
+  </delete>
+  
+  
+  
+  <!-- product -->
+  <select id="list_product" resultType="com.example.web03.product.model.dto.ProductVo">
+  select * from product order by product_name
+  </select>
+  
+  <select id="detail_product" resultType="com.example.web03.product.model.dto.ProductVo">
+  select * from product where product_id=#{product_id}
+  </select>
+  
+  
+  <!-- cart -->
+  <insert id="insert">
+  insert into cart(cart_id, userid, product_id, amount) values( seq_cart.nextval, #{userid}, #{product_id}, #{amount} )
+  </insert>
+  
+</mapper>
